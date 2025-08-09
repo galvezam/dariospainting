@@ -619,7 +619,12 @@ function Footer() {
         <div className="text-slate-600 dark:text-slate-300">
           <p className="font-semibold text-blue-900 dark:text-blue-200">Contact</p>
           <ul className="mt-2 space-y-1">
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-blue-700 dark:text-blue-300" />(901) 550-4834</li>
+            <li className="flex items-center gap-2">
+              <a href="tel:9015504834" className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <Phone className="h-4 w-4 text-blue-700 dark:text-blue-300" />
+                (901) 550-4834
+              </a>
+            </li>
             <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-blue-700 dark:text-blue-300" />dariospainting79@gmail.com</li>
             <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-blue-700 dark:text-blue-300" />Memphis, TN</li>
           </ul>
