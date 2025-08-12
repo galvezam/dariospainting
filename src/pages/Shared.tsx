@@ -21,9 +21,10 @@ export function QuoteModal({ open, onClose }: { open: boolean; onClose: () => vo
       setLoading(true)
       await sendEmail(
         {
-          from_name: form.name,
-          reply_to: form.email,
+          name: form.name,
+          email: form.email,
           phone: form.phone,
+          time: new Date().toLocaleString(),
           message: form.details,
           subject: 'Quote Request - Dario\'s Painting',
         },
