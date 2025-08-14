@@ -27,7 +27,6 @@ export default function Home({ onQuote }: { onQuote: () => void }) {
   return (
     <>
       <Hero onQuote={onQuote} />
-      <PalettePicker />
       <Services />
       <Estimator />
       <Gallery />
@@ -57,7 +56,7 @@ function Hero({ onQuote }: { onQuote: () => void }) {
       <GradientBackdrop />
       <div className="mx-auto max-w-7xl px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">Memphis • Germantown • Collierville</Badge>
+          <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">Memphis Area • Germantown • Collierville</Badge>
           <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight text-blue-900 dark:text-blue-200 leading-tight">
             Dario&apos;s Painting: <span className="gradient-text">Memphis Quality, Bold Results</span>
           </h1>
@@ -240,8 +239,8 @@ function Estimator() {
   const estimate = useMemo(() => {
     const safeSqft = Math.max(0, sqft | 0)
     const safeRooms = Math.max(0, rooms | 0)
-    const safeOpenings = Math.max(0, cabinetOpenings | 0)
-    const safeWash = pressureWash ? Math.max(0, washSqft | 0) : 0
+    const safeOpenings = Math.max(0, typeof cabinetOpenings === 'number' ? cabinetOpenings : 0)
+    const safeWash = pressureWash ? Math.max(0, typeof washSqft === 'number' ? washSqft : 0) : 0
     const r = rates[quality]
     
     const base = 199
@@ -460,7 +459,23 @@ function PalettePicker() {
 }
 
 function Gallery() {
-  const pics = Array.from({ length: 10 }).map((_, i) => `https://picsum.photos/seed/memphis${i}/800/500`)
+
+  const imageFiles = [
+    'IMG_2204.JPG', 
+    'IMG_2207.JPG', 
+    'img1.png',
+    'img2.png',
+    'img4.png',
+    'IMG_2208.JPG', 
+    'img5.png',
+    'img6.png',
+    'img3.png',
+    'IMG_2200.png',
+    'IMG_2201.png',
+  ]
+  
+  // Create paths to images in the public/pictures folder
+  const pics = imageFiles.map(filename => `/pictures/${filename}`)
   
   return (
     <section id="gallery" className="scroll-mt-24 mx-auto max-w-7xl px-0 md:px-4 py-16">
@@ -473,10 +488,27 @@ function Gallery() {
       <div className="overflow-hidden">
         <div className="marquee group">
           {[...pics, ...pics].map((src, idx) => (
-            <img key={idx} src={src} alt={`Project ${idx + 1}`} className="h-40 md:h-52 w-auto object-cover rounded-xl border dark:border-slate-800 mx-2" />
+            <img 
+              key={idx} 
+              src={src} 
+              alt={`Project ${idx + 1}`} 
+              className="h-40 md:h-52 w-auto object-cover rounded-xl border dark:border-slate-800 mx-2"
+              // onError={(e) => {
+              //   // Fallback to placeholder if image fails to load
+              //   const target = e.target as HTMLImageElement
+              //   target.src = `https://picsum.photos/seed/memphis${idx}/800/500`
+              // }}
+            />
           ))}
         </div>
       </div>
+      {/* <div className="overflow-hidden">
+        <div className="marquee group">
+          {[...pics, ...pics].map((src, idx) => (
+            <img key={idx} src={src} alt={`Project ${idx + 1}`} className="h-40 md:h-52 w-auto object-cover rounded-xl border dark:border-slate-800 mx-2" />
+          ))}
+        </div>
+      </div> */}
     </section>
   )
 }
@@ -529,9 +561,10 @@ function Contact() {
       setLoading(true)
       await sendEmail(
         {
-          from_name: form.name,
+          name: form.name,
           reply_to: form.email,
           phone: form.phone,
+          time: new Date().toLocaleString(),
           message: form.message,
           subject: 'Contact Form - Dario\'s Painting',
         },
