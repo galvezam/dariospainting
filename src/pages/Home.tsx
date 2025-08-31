@@ -472,6 +472,15 @@ function Gallery() {
     'img3.png',
     'IMG_2200.png',
     'IMG_2201.png',
+    'img9.JPG',
+    'img10.JPG',
+    'img7.JPG',
+    'img8.JPG',
+    'img11.JPG',
+    'img12.JPG',
+    'img13.JPG',
+    'img14.JPG',
+    'img15.JPG',
   ]
   
   // Create paths to images in the public/pictures folder
